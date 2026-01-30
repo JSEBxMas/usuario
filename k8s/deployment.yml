@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usuario
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usuario
+  template:
+    metadata:
+      labels:
+        app: usuario
+    spec:
+      containers:
+        - name: usuario
+          image: usuario:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 75
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: usuario-service
+spec:
+  selector:
+    app: usuario
+  ports:
+    - port: 8080
+      targetPort: 75
+  type: NodePort
